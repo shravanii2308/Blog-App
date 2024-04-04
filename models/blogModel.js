@@ -15,7 +15,7 @@ const blogSchema = new mongoose.Schema(
       required: [true, "image is require"],
     },
     user: {
-      type: mongoose.Types.ObjectId,
+      type: String,
       ref: "User",
       require: [true, "user id is required"],
     },
@@ -24,5 +24,5 @@ const blogSchema = new mongoose.Schema(
 );
 
 const blogModel = mongoose.model("Blog", blogSchema);
-
+//mongoose.Types.ObjectI
 module.exports = blogModel;

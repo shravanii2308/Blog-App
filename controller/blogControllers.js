@@ -28,7 +28,7 @@ exports.getAllBlogController = async (req, res) => {
   }
 };
 
-// CREATE blog
+// CREATE blog //see the issue is ki provide all fields but user is null the same issue is with login user null
 exports.createBlogController = async (req, res) => {
   try {
     const { title, description, image, user } = req.body;
@@ -39,7 +39,7 @@ exports.createBlogController = async (req, res) => {
         message: "Please provide all details",
       });
     }
-    const exisitingUser = await userModel.findById(user);
+    const exisitingUser = await userModel.findOne({ email: user });
     // validation
     if (!exisitingUser) {
       return res.status(404).send({
@@ -100,7 +100,7 @@ exports.updateBlogController = async (req, res) => {
 exports.getBlogByIdController = async (req, res) => {
   try {
     const { id } = req.params;
-    const blog = await blogModel.findById(id);
+    const blog = await blogModel.findOne({ email: id });
     if (!blog) {
       return res.status(404).send({
         success: false,
@@ -148,7 +148,9 @@ exports.deleteBlogController = async (req, res) => {
 
 exports.userBlogController = async (req, res) => {
   try {
-    const userBlog = await userModel.findById(req.params.id).populate("blogs");
+    const userBlog = await userModel
+      .findOne({ email: req.params.id })
+      .populate("blogs");
     if (!userBlog) {
       return res.status(404).send({
         success: false,
